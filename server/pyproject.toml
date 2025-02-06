@@ -1,0 +1,10 @@
+[project]
+name = "bug-bounty"
+version = "0.1.0"
+description = "asdasd"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi[standard]>=0.115.8",
+    "sqlmodel>=0.0.22",
+]
