@@ -11,6 +11,7 @@
         <div class="container mx-auto flex justify-between items-center">
             <a class="text-xl font-bold" href="/bug-bounty/home">Bug Bounty Bank</a>
             <div class="space-x-4">
+                <a href="home" class="hover:text-gray-200">Home</a>
                 <a href="account-details" class="hover:text-gray-200">Account</a>
             </div>
         </div>
