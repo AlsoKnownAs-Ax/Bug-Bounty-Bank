@@ -67,7 +67,7 @@
         </div>
 
         <form
-            use:enhance={({ formElement, cancel }) => {
+            use:enhance={({ cancel }) => {
                 const valid = validateForm(new SubmitEvent('submit'));
                 if (!valid) {
                     cancel();
@@ -75,7 +75,6 @@
             }} 
             method="POST" 
             action="?/register" 
-            on:submit="{validateForm}"
         >
             <div class="space-y-4">
                 <div class="grid grid-cols-2 gap-4">
