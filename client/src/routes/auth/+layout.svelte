@@ -15,15 +15,11 @@
             alt=""
         />
         <div class="w-full max-w-md mx-auto px-4">
-            {#key page.url.pathname}
-                <div 
-                    class="relative bg-white shadow-xl rounded-lg px-8 pt-6 pb-8 mb-4 border border-gray-100"
-                    in:fade={{ duration: 300, delay: 300 }}
-                    out:fade={{ duration: 300 }}
-                >
-                    {@render children()}
-                </div>
-            {/key}
+            <div 
+                class="relative bg-white shadow-xl rounded-lg px-8 pt-6 pb-8 mb-4 border border-gray-100"
+            >
+                {@render children()}
+            </div>
         </div>
     </main>
 </div>
