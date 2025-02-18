@@ -9,7 +9,7 @@
     let ssn = '';
     let errors: {[key: string]: string} = {};
 
-    function validateForm() {
+    function validateForm(event: SubmitEvent) {
         errors = {};
         
         if (!firstName) errors.firstName = 'First name is required';
@@ -20,7 +20,12 @@
         if (password !== confirmPassword) errors.confirmPassword = 'Passwords do not match';
         if (password.length < 8) errors.password = 'Password must be at least 8 characters';
         
-        return Object.keys(errors).length === 0;
+        if (Object.keys(errors).length > 0) {
+            event.preventDefault();
+            return false;
+        }
+        
+        return true;
     }
 
     // function handleSubmit(event: Event) {
@@ -61,7 +66,17 @@
             <p class="mt-2 text-gray-600">Join our secure bug bounty platform</p>
         </div>
 
-        <form use:enhance method="POST" action="?/register" on:submit="{validateForm}">
+        <form
+            use:enhance={({ formElement, cancel }) => {
+                const valid = validateForm(new SubmitEvent('submit'));
+                if (!valid) {
+                    cancel();
+                }
+            }} 
+            method="POST" 
+            action="?/register" 
+            on:submit="{validateForm}"
+        >
             <div class="space-y-4">
                 <div class="grid grid-cols-2 gap-4">
                     <div>
