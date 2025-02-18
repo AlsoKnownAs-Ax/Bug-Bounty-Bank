@@ -23,11 +23,28 @@
         return Object.keys(errors).length === 0;
     }
 
-    function handleSubmit(event: Event) {
-        event.preventDefault();
-        if (validateForm()) {
-            // Handle registration logic
+    // function handleSubmit(event: Event) {
+    //     event.preventDefault();
+    //     if (validateForm()) {
+    //         // Handle registration logic
+    //     }
+    // }
+
+    function formatSSN(value: string) {
+        // Remove all non-digits
+        const cleaned = value.replace(/\D/g, '');
+        
+        // Format as XXX-XX-XXXX
+        if (cleaned.length >= 9) {
+            return `${cleaned.slice(0,3)}-${cleaned.slice(3,5)}-${cleaned.slice(5,9)}`;
         }
+        return cleaned;
+    }
+
+    // Modify the SSN input handler
+    function handleSSNInput(event: Event) {
+        const input = event.target as HTMLInputElement;
+        ssn = formatSSN(input.value);
     }
 </script>
 
@@ -44,7 +61,7 @@
             <p class="mt-2 text-gray-600">Join our secure bug bounty platform</p>
         </div>
 
-        <form on:submit={handleSubmit} use:enhance>
+        <form use:enhance method="POST" action="?/register" on:submit="{validateForm}">
             <div class="space-y-4">
                 <div class="grid grid-cols-2 gap-4">
                     <div>
@@ -53,6 +70,7 @@
                             bind:value={firstName}
                             type="text" 
                             id="first_name" 
+                            name="first_name"
                             class="w-full px-4 py-1.5 border {errors.firstName ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors" 
                             placeholder="John"
                         />
@@ -67,6 +85,7 @@
                             bind:value={lastName}
                             type="text" 
                             id="last_name" 
+                            name="last_name"
                             class="w-full px-4 py-1.5 border {errors.lastName ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors" 
                             placeholder="Doe"
                         />
@@ -81,9 +100,12 @@
                         bind:value={ssn}
                         type="text" 
                         id="ssn" 
+                        name="ssn"
                         class="w-full px-4 py-1.5 border {errors.ssn ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors" 
                         placeholder="XXX-XX-XXXX"
-                        pattern="\d{3}-?\d{2}-?\d{4}"
+                        on:input={handleSSNInput}
+                        minlength="11"
+                        maxlength="11"
                     />
                     {#if errors.ssn}
                         <p class="mt-1 text-sm text-red-500">{errors.ssn}</p>
@@ -95,6 +117,7 @@
                         bind:value={email}
                         type="email" 
                         id="email" 
+                        name="email"
                         class="w-full px-4 py-1.5 border {errors.email ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors" 
                         placeholder="you@example.com"
                     />
@@ -109,6 +132,7 @@
                         bind:value={password}
                         type="password" 
                         id="password" 
+                        name="password"
                         class="w-full px-4 py-1.5 border {errors.password ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors" 
                         placeholder="••••••••"
                     />
@@ -123,6 +147,7 @@
                         bind:value={confirmPassword}
                         type="password" 
                         id="confirm_password" 
+                        name="confirm_password"
                         class="w-full px-4 py-1.5 border {errors.confirmPassword ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors" 
                         placeholder="••••••••"
                     />
