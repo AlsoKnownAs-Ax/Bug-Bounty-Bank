@@ -1,7 +1,7 @@
 from pydantic import EmailStr
 from sqlmodel import Session
 
-from modules.auth.auth_schemas import LoginRequest
+from src.modules.auth.auth_schemas import LoginRequest
 from src.modules.user.models.user import User
 
 
