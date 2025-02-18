@@ -3,5 +3,5 @@ import { goto } from '$app/navigation';
 import { redirect } from '@sveltejs/kit';
 
 export const load = (async () => {
-	throw redirect(302, '/login');
+	throw redirect(302, '/auth/login');
 }) satisfies PageLoad;
