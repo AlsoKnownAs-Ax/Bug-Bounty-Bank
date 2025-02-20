@@ -29,7 +29,7 @@ def login_user(
             detail="Invalid password"
         )
     
-    return LoginResponse(user=user)    
+    return LoginResponse(user=user.model_dump())    
 
 @router.post('/register', response_model=RegisterResponse, status_code=status.HTTP_201_CREATED)
 def register_user(

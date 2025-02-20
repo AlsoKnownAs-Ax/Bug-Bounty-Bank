@@ -1,28 +1,12 @@
 <script lang="ts">
+	import { enhance } from "$app/forms";
     import { goto } from "$app/navigation";
+	import { formEnhance } from "$lib/core/formEnhance";
+	import { toast } from "svelte-sonner";
 
-    let username = '';
+    let email = '';
     let password = '';
     let errors: {[key: string]: string} = {};
-
-    function validateForm() {
-        errors = {};
-        if (!username) errors.username = 'Username is required';
-        if (!password) errors.password = 'Password is required';
-        return Object.keys(errors).length === 0;
-    }
-
-    function handleSubmit(event: Event) {
-        event.preventDefault();
-        if (validateForm()) {
-            // Handle login logic here
-            if (username === 'admin' && password === 'password') {
-                goto('/bug-bounty/home')
-            } else {
-                errors.auth = 'Invalid credentials';
-            }
-        }
-    }
 </script>
 
 <main>
@@ -38,25 +22,24 @@
             <p class="mt-2 text-gray-600">Sign in to your account</p>
         </div>
 
-        <form on:submit={handleSubmit}>
-            {#if errors.auth}
-                <div class="mb-4 p-4 bg-red-50 border-l-4 border-red-500 text-red-700" role="alert">
-                    <p>{errors.auth}</p>
-                </div>
-            {/if}
-
+        <form 
+            use:enhance={formEnhance}
+            method="POST" 
+            action="?/login" 
+        >
             <div class="space-y-6">
                 <div>
-                    <label for="username" class="block text-sm font-medium text-gray-700 mb-1">Username</label>
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
                     <input 
-                        bind:value={username}
+                        bind:value={email}
                         type="text" 
-                        id="username" 
-                        class="w-full px-4 py-2 border {errors.username ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors" 
-                        placeholder="Enter your username"
+                        id="email" 
+                        name="email"
+                        class="bg-transparent w-full px-4 py-2 border {errors.email ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors" 
+                        placeholder="Enter your Email"
                     />
-                    {#if errors.username}
-                        <p class="mt-1 text-sm text-red-500">{errors.username}</p>
+                    {#if errors.email}
+                        <p class="mt-1 text-sm text-red-500">{errors.email}</p>
                     {/if}
                 </div>
 
@@ -66,7 +49,8 @@
                         bind:value={password}
                         type="password" 
                         id="password" 
-                        class="w-full px-4 py-2 border {errors.password ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors" 
+                        name="password"
+                        class="bg-transparent w-full px-4 py-2 border {errors.password ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors" 
                         placeholder="••••••••"
                     />
                     {#if errors.password}

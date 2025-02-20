@@ -1,11 +1,17 @@
 <script lang="ts">
+    import { Input } from '$lib/components/ui/input';
+	import { Label } from '$lib/components/ui/label';
+	import { Separator } from '$lib/components/ui/separator';
     import type { PageData } from './$types';
 
     let { data }: { data: PageData } = $props();
-    
-    let balance = "$10,000.00";
-    let username = "John Doe";
-    
+
+    const isAdmin = data.isAdmin;    
+    const balance = data.currentUser?.balance;
+    const username = [data.currentUser?.first_name, data.currentUser?.last_name].filter(Boolean).join(" ");
+    const iban = data.currentUser?.iban;
+    const ssn = data.currentUser?.ssn;
+
     let transactions = [
         { id: 1, date: "2024-03-20", description: "Salary Deposit", amount: "+$5,000.00" },
         { id: 2, date: "2024-03-19", description: "Shopping", amount: "-$150.00" },
@@ -37,17 +43,39 @@
         <!-- Balance Card -->
         <div class="bg-white p-6 rounded-lg shadow-md">
             <h3 class="text-lg font-semibold mb-2">Account Balance</h3>
-            <!-- Vulnerable: Direct HTML injection -->
-            <p class="text-3xl font-bold text-green-600">{@html balance}</p>
-            <p class="text-gray-600">Welcome back, {@html username}</p>
+            <p class="text-3xl font-bold text-green-600">{balance}</p>
+            <p class="text-gray-600 mb-3">Welcome back, {username}</p>
+            <Separator />
+            <div class="space-y-4">
+                <div class="pt-3">
+                    <p class="text-sm text-gray-500">IBAN</p>
+                    <p class="font-mono text-gray-700">{iban}</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-500">Social Security Number</p>
+                    <p class="font-mono text-gray-700 group relative cursor-help">
+                        <span class="inline-block">XXX-XX-{ssn?.slice(-4) ?? '****'}</span>
+                        <span class="absolute left-0 -top-8 bg-gray-900 text-white px-2 py-1 rounded text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                            {ssn ?? 'Not available'}
+                        </span>
+                    </p>
+                </div>
+            </div>
         </div>
 
         <!-- Quick Transfer -->
         <div class="bg-white p-6 rounded-lg shadow-md">
             <h3 class="text-lg font-semibold mb-4">Quick Transfer</h3>
-            <form onsubmit={handleTransfer}>
-                <input type="text" placeholder="Account Number" class="w-full p-2 mb-2 border rounded">
-                <input type="number" placeholder="Amount" class="w-full p-2 mb-2 border rounded">
+            <form onsubmit={handleTransfer} class="space-y-4">
+                {#if isAdmin}
+                    <div>
+                        <Label for="fromAccount" class="text-gray-600">From Account (Admin)</Label>
+                        <Input type="text" id="fromAccount" placeholder="Account Number" class="bg-transparent w-full p-2 mb-2 border rounded" />
+                        <p class="text-muted-foreground text-sm">Please specify the source account for the transfer</p>
+                    </div>
+                {/if}
+                <Input type="text" placeholder="Account Number" class="bg-transparent w-full p-2 mb-2 border rounded" />
+                <Input type="number" placeholder="Amount" class="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none bg-transparent w-full p-2 mb-2 border rounded" />
                 <button type="submit" class="w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700">
                     Transfer
                 </button>
@@ -92,12 +120,12 @@
             </div>
             <div>
                 <h4 class="font-semibold mb-4">Technical Info</h4>
-                <p>Server: Apache 2.4.1</p>
-                <p>Database: MySQL 5.5</p>
+                <p>Server: Raspberry pi</p>
+                <p>Database: SQLite 3.37.1</p>
             </div>
             <div>
                 <h4 class="font-semibold mb-4">Admin</h4>
-                <p>Internal Portal: admin.bugbountybank.local</p>
+                <p>Internal Portal: Soon</p>
             </div>
         </div>
     </div>

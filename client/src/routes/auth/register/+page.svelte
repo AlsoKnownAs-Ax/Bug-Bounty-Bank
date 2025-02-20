@@ -85,7 +85,7 @@
                             type="text" 
                             id="first_name" 
                             name="first_name"
-                            class="w-full px-4 py-1.5 border {errors.firstName ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors" 
+                            class="bg-transparent w-full px-4 py-1.5 border {errors.firstName ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors" 
                             placeholder="John"
                         />
                         {#if errors.firstName}
@@ -100,7 +100,7 @@
                             type="text" 
                             id="last_name" 
                             name="last_name"
-                            class="w-full px-4 py-1.5 border {errors.lastName ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors" 
+                            class="bg-transparent w-full px-4 py-1.5 border {errors.lastName ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors" 
                             placeholder="Doe"
                         />
                         {#if errors.lastName}
@@ -115,7 +115,7 @@
                         type="text" 
                         id="ssn" 
                         name="ssn"
-                        class="w-full px-4 py-1.5 border {errors.ssn ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors" 
+                        class="bg-transparent w-full px-4 py-1.5 border {errors.ssn ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors" 
                         placeholder="XXX-XX-XXXX"
                         on:input={handleSSNInput}
                         minlength="11"
@@ -132,7 +132,7 @@
                         type="email" 
                         id="email" 
                         name="email"
-                        class="w-full px-4 py-1.5 border {errors.email ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors" 
+                        class="bg-transparent w-full px-4 py-1.5 border {errors.email ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors" 
                         placeholder="you@example.com"
                     />
                     {#if errors.email}
@@ -147,7 +147,7 @@
                         type="password" 
                         id="password" 
                         name="password"
-                        class="w-full px-4 py-1.5 border {errors.password ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors" 
+                        class="bg-transparent w-full px-4 py-1.5 border {errors.password ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors" 
                         placeholder="••••••••"
                     />
                     {#if errors.password}
@@ -161,7 +161,7 @@
                         bind:value={confirmPassword}
                         type="password" 
                         id="confirm_password" 
-                        class="w-full px-4 py-1.5 border {errors.confirmPassword ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors" 
+                        class="bg-transparent w-full px-4 py-1.5 border {errors.confirmPassword ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors" 
                         placeholder="••••••••"
                     />
                     {#if errors.confirmPassword}

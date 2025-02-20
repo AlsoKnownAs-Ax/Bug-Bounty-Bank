@@ -18,9 +18,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 			body: { email }
 		});
 
-		console.log('data: ', data);
-		console.log('error: ', error);
-
 		if (!error) {
 			event.locals.user = data?.user || null;
 		}
