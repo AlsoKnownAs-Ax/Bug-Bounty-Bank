@@ -102,7 +102,11 @@ export class AuthService {
 				return await zAuthGetCurrentUserResponse.parseAsync(data);
 			},
 			url: '/api/v0/auth/current-user',
-			...options
+			...options,
+			headers: {
+				'Content-Type': 'application/json',
+				...options?.headers
+			}
 		});
 	}
 }

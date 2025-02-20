@@ -2,6 +2,10 @@
 
 import { z } from 'zod';
 
+export const zGetUserRequest = z.object({
+	email: z.string().email()
+});
+
 export const zHttpValidationError = z.object({
 	detail: z
 		.array(

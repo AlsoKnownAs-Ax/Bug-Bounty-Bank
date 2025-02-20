@@ -27,3 +27,6 @@ class RegisterRequest(BaseModel):
     first_name: str
     last_name: str
     ssn: str
+
+class GetUserRequest(BaseModel):
+    email: EmailStr

@@ -1,9 +1,9 @@
-import { AuthService, type RegisterRequest } from '$lib/api';
+import { AuthService, type RegisterRequest, type UserResponse } from '$lib/api';
 import { zRegisterRequest } from '$lib/api/zod.gen';
 import { fail, redirect, type Actions } from '@sveltejs/kit';
 
 export const actions: Actions = {
-	register: async ({ request, cookies }) => {
+	register: async ({ request, cookies, locals }) => {
 		const formData = Object.fromEntries(await request.formData());
 		const validateForm = zRegisterRequest.safeParse(formData);
 
@@ -17,6 +17,14 @@ export const actions: Actions = {
 		});
 
 		if (error) return fail(400, { error: error.detail });
+
+		cookies.set('email', data.user.email, {
+			path: '/',
+			httpOnly: true,
+			// secure: !dev, # Flagged: No secure cookie
+			sameSite: 'strict',
+			maxAge: 60 * 60 * 24 * 7 // 1 week
+		});
 
 		throw redirect(303, '/bug-bounty/home');
 	}

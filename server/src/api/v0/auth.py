@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, status
 from pydantic import EmailStr
 from src.core.deps import SessionDep
 from src.modules.user.user_deps import UserServiceDep
-from src.modules.auth.auth_schemas import LoginRequest, LoginResponse, RegisterRequest, RegisterResponse
+from src.modules.auth.auth_schemas import GetUserRequest, LoginRequest, LoginResponse, RegisterRequest, RegisterResponse
 
 
 router = APIRouter()
@@ -53,13 +53,13 @@ def register_user(
 #Flagged: Security issue: one can call the API with other emails and get the user data
 @router.get('/current-user', response_model=LoginResponse, status_code=status.HTTP_200_OK)
 def get_current_user(
-    email: EmailStr,
+    data: GetUserRequest,
     user_service: UserServiceDep
 ) -> LoginResponse:
     """
     Get the current user by email.
     """
-    user = user_service.get_user_by_email(email)
+    user = user_service.get_user_by_email(data.email)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, 
