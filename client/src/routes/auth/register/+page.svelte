@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { enhance } from "$app/forms";
 
-    let email = '';
-    let password = '';
-    let confirmPassword = '';
-    let firstName = '';
-    let lastName = '';
+    let email = 'test@example.com';
+    let password = 'example1234';
+    let confirmPassword = 'example1234';
+    let firstName = 'John';
+    let lastName = 'Doe';
     let ssn = '';
     let errors: {[key: string]: string} = {};
 
@@ -161,7 +161,6 @@
                         bind:value={confirmPassword}
                         type="password" 
                         id="confirm_password" 
-                        name="confirm_password"
                         class="w-full px-4 py-1.5 border {errors.confirmPassword ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors" 
                         placeholder="••••••••"
                     />

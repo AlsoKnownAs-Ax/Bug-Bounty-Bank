@@ -45,6 +45,7 @@ export const RegisterRequestSchema = {
 	properties: {
 		email: {
 			type: 'string',
+			format: 'email',
 			title: 'Email'
 		},
 		password: {
@@ -62,14 +63,10 @@ export const RegisterRequestSchema = {
 		ssn: {
 			type: 'string',
 			title: 'Ssn'
-		},
-		iban: {
-			type: 'string',
-			title: 'Iban'
 		}
 	},
 	type: 'object',
-	required: ['email', 'password', 'first_name', 'last_name', 'ssn', 'iban'],
+	required: ['email', 'password', 'first_name', 'last_name', 'ssn'],
 	title: 'RegisterRequest'
 } as const;
 
@@ -87,16 +84,17 @@ export const RegisterResponseSchema = {
 export const UserResponseSchema = {
 	properties: {
 		id: {
-			type: 'integer',
+			type: 'string',
+			format: 'uuid',
 			title: 'Id'
 		},
 		email: {
 			type: 'string',
 			title: 'Email'
 		},
-		is_admin: {
-			type: 'boolean',
-			title: 'Is Admin'
+		admin_level: {
+			type: 'integer',
+			title: 'Admin Level'
 		},
 		first_name: {
 			type: 'string',
@@ -120,7 +118,7 @@ export const UserResponseSchema = {
 		}
 	},
 	type: 'object',
-	required: ['id', 'email', 'is_admin', 'first_name', 'last_name', 'ssn', 'balance', 'iban'],
+	required: ['id', 'email', 'admin_level', 'first_name', 'last_name', 'ssn', 'balance', 'iban'],
 	title: 'UserResponse'
 } as const;
 

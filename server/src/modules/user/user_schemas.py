@@ -1,10 +1,11 @@
+from uuid import UUID
 from pydantic import BaseModel
 
 
 class UserResponse(BaseModel):
-    id: int
+    id: UUID
     email: str
-    is_admin: bool
+    admin_level: int
     first_name: str
     last_name: str
     ssn: str

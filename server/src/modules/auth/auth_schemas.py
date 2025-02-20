@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
 from src.modules.user.user_schemas import UserResponse
 
@@ -22,9 +22,8 @@ class RegisterResponse(BaseModel):
         from_attributes = True
 
 class RegisterRequest(BaseModel):
-    email: str
+    email: EmailStr
     password: str
     first_name: str
     last_name: str
     ssn: str
-    iban: str

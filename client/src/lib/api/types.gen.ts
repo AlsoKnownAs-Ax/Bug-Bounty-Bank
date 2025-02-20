@@ -19,7 +19,6 @@ export type RegisterRequest = {
 	first_name: string;
 	last_name: string;
 	ssn: string;
-	iban: string;
 };
 
 export type RegisterResponse = {
@@ -27,9 +26,9 @@ export type RegisterResponse = {
 };
 
 export type UserResponse = {
-	id: number;
+	id: string;
 	email: string;
-	is_admin: boolean;
+	admin_level: number;
 	first_name: string;
 	last_name: string;
 	ssn: string;
@@ -92,6 +91,34 @@ export type AuthRegisterUserResponses = {
 };
 
 export type AuthRegisterUserResponse = AuthRegisterUserResponses[keyof AuthRegisterUserResponses];
+
+export type AuthGetCurrentUserData = {
+	body?: never;
+	path?: never;
+	query: {
+		email: string;
+	};
+	url: '/api/v0/auth/current-user';
+};
+
+export type AuthGetCurrentUserErrors = {
+	/**
+	 * Validation Error
+	 */
+	422: HttpValidationError;
+};
+
+export type AuthGetCurrentUserError = AuthGetCurrentUserErrors[keyof AuthGetCurrentUserErrors];
+
+export type AuthGetCurrentUserResponses = {
+	/**
+	 * Successful Response
+	 */
+	200: LoginResponse;
+};
+
+export type AuthGetCurrentUserResponse =
+	AuthGetCurrentUserResponses[keyof AuthGetCurrentUserResponses];
 
 export type DefaultHealthCheckData = {
 	body?: never;

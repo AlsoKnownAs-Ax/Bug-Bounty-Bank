@@ -21,9 +21,9 @@ export const zLoginRequest = z.object({
 
 export const zLoginResponse = z.object({
 	user: z.object({
-		id: z.number().int(),
+		id: z.string().uuid(),
 		email: z.string(),
-		is_admin: z.boolean(),
+		admin_level: z.number().int(),
 		first_name: z.string(),
 		last_name: z.string(),
 		ssn: z.string(),
@@ -33,19 +33,18 @@ export const zLoginResponse = z.object({
 });
 
 export const zRegisterRequest = z.object({
-	email: z.string(),
+	email: z.string().email(),
 	password: z.string(),
 	first_name: z.string(),
 	last_name: z.string(),
-	ssn: z.string(),
-	iban: z.string()
+	ssn: z.string()
 });
 
 export const zRegisterResponse = z.object({
 	user: z.object({
-		id: z.number().int(),
+		id: z.string().uuid(),
 		email: z.string(),
-		is_admin: z.boolean(),
+		admin_level: z.number().int(),
 		first_name: z.string(),
 		last_name: z.string(),
 		ssn: z.string(),
@@ -55,9 +54,9 @@ export const zRegisterResponse = z.object({
 });
 
 export const zUserResponse = z.object({
-	id: z.number().int(),
+	id: z.string().uuid(),
 	email: z.string(),
-	is_admin: z.boolean(),
+	admin_level: z.number().int(),
 	first_name: z.string(),
 	last_name: z.string(),
 	ssn: z.string(),
@@ -74,3 +73,5 @@ export const zValidationError = z.object({
 export const zAuthLoginUserResponse = zLoginResponse;
 
 export const zAuthRegisterUserResponse = zRegisterResponse;
+
+export const zAuthGetCurrentUserResponse = zLoginResponse;

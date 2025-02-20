@@ -8,9 +8,16 @@ import type {
 	AuthRegisterUserData,
 	AuthRegisterUserResponse,
 	AuthRegisterUserError,
+	AuthGetCurrentUserData,
+	AuthGetCurrentUserResponse,
+	AuthGetCurrentUserError,
 	DefaultHealthCheckData
 } from './types.gen';
-import { zAuthLoginUserResponse, zAuthRegisterUserResponse } from './zod.gen';
+import {
+	zAuthLoginUserResponse,
+	zAuthRegisterUserResponse,
+	zAuthGetCurrentUserResponse
+} from './zod.gen';
 import { client as _heyApiClient } from './client.gen';
 
 export type Options<
@@ -76,6 +83,26 @@ export class AuthService {
 				'Content-Type': 'application/json',
 				...options?.headers
 			}
+		});
+	}
+
+	/**
+	 * Get Current User
+	 * Get the current user by email.
+	 */
+	public static getCurrentUser<ThrowOnError extends boolean = false>(
+		options: Options<AuthGetCurrentUserData, ThrowOnError>
+	) {
+		return (options.client ?? _heyApiClient).get<
+			AuthGetCurrentUserResponse,
+			AuthGetCurrentUserError,
+			ThrowOnError
+		>({
+			responseValidator: async (data) => {
+				return await zAuthGetCurrentUserResponse.parseAsync(data);
+			},
+			url: '/api/v0/auth/current-user',
+			...options
 		});
 	}
 }
