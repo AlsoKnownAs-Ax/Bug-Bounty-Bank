@@ -1,15 +1,19 @@
 <script lang="ts">
     import type { PageData } from './$types';
+
     let { data }: { data: PageData } = $props();
     
+    const API_KEY = "sk_live_51NXbsFBE4932gtrPjmk2";
+
     // Keep existing vulnerable data and functions
     let userDetails = {
-        name: "John Doe",
-        email: "john@example.com",
-        ssn: "123-45-6789",
-        accountNumber: "1234567890",
-        routingNumber: "987654321",
-        balance: "$10,000.00"
+        name: [data.currentUser?.first_name, data.currentUser?.last_name].filter(Boolean).join(" "),
+        email: data.currentUser?.email,
+        ssn: data.currentUser?.ssn,
+        iban: data.currentUser?.iban,
+        // routingNumber: "987654321",
+        balance: data.currentUser?.balance,
+        apiKey: API_KEY,    // Secret API key
     };
 
     function updateProfile(event: Event) {
@@ -18,20 +22,35 @@
     }
 
     function exportData() {
-        const sensitive = JSON.stringify(userDetails);
-        console.log("Exporting sensitive data:", sensitive);
+        const sensitive = JSON.stringify(userDetails, null, 2);
+        const blob = new Blob([sensitive], { type: 'application/json' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        
+        // Create filename with timestamp for uniqueness
+        const filename = `account-details-${new Date().toISOString().split('T')[0]}.json`;
+        
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        
+        // Cleanup
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
     }
 </script>
 
 <div class="min-h-screen bg-gray-50">
     <!-- Breadcrumbs -->
-    <div class="container mx-auto px-4 py-3">
+     <!-- TODO: Add shadcn-svelte breadcrumbs -->
+    <!-- <div class="container mx-auto px-4 py-3">
         <div class="text-sm breadcrumbs">
             <span class="text-gray-500">Dashboard</span>
             <span class="mx-2">→</span>
             <span class="text-indigo-600">Account Details</span>
         </div>
-    </div>
+    </div> -->
 
     <main class="container mx-auto px-4 py-6">
         <!-- Personal Information Card -->
@@ -58,13 +77,13 @@
             <h2 class="text-2xl font-bold mb-6 text-indigo-600">Account Details</h2>
             <div class="grid md:grid-cols-2 gap-6">
                 <div class="p-4 bg-gray-50 rounded-lg">
-                    <div class="text-gray-600 mb-1">Account Number</div>
-                    <p class="text-lg font-medium">{userDetails.accountNumber}</p>
+                    <div class="text-gray-600 mb-1">IBAN</div>
+                    <p class="text-lg font-medium">{userDetails.iban}</p>
                 </div>
-                <div class="p-4 bg-gray-50 rounded-lg">
+                <!-- <div class="p-4 bg-gray-50 rounded-lg">
                     <div class="text-gray-600 mb-1">Routing Number</div>
                     <p class="text-lg font-medium">{userDetails.routingNumber}</p>
-                </div>
+                </div> -->
                 <div class="p-4 bg-gray-50 rounded-lg col-span-2">
                     <div class="text-gray-600 mb-1">Current Balance</div>
                     <p class="text-2xl font-bold text-green-600">{userDetails.balance}</p>
