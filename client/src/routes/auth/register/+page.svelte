@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { enhance } from "$app/forms";
 
-    let email = 'test@example.com';
-    let password = 'example1234';
-    let confirmPassword = 'example1234';
-    let firstName = 'John';
-    let lastName = 'Doe';
+    let email = '';
+    let password = '';
+    let confirmPassword = '';
+    let firstName = '';
+    let lastName = '';
     let ssn = '';
     let errors: {[key: string]: string} = {};
 
