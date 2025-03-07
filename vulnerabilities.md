@@ -32,7 +32,7 @@
    - Insufficient logging
    - No audit trail for sensitive operations
 
-Total vulnerabilities listed: 11
+Total vulnerabilities listed: 12
 
 ## 1. Unhashed Password Storage
 
@@ -185,6 +185,37 @@ def login(
     # Flagged: No rate limiting on login attempts
     # Vulnerable to brute force attacks
     return user_service.authenticate_user(data)
+```
+
+## 12. Authentication Based Only on Cookie
+
+**Category:** [OWASP A7:2025-Identification and Authentication Failures](https://owasp.org/www-project-top-ten/2025/A7_2025-Identification_and_Authentication_Failures)
+
+**File:** `client\src\hooks.server.ts`
+
+```typescript
+export const handle: Handle = async ({ event, resolve }) => {
+  // Flagged: No token verification
+  const email = event.cookies.get("email");
+
+  if (email) {
+    const { data, error } = await AuthService.getCurrentUser({
+      body: { email },
+    });
+
+    if (!error) {
+      event.locals.user = data?.user || null;
+    }
+  }
+
+  console.log("event.locals.user: ", event.locals.user);
+  // Flagged: Authentication relies only on an email cookie
+  // No JWT or session verification
+  // Vulnerable to cookie theft and session impersonation
+
+  const response = await resolve(event);
+  return response;
+};
 ```
 
 ---
